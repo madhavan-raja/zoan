@@ -1,6 +1,7 @@
 function Wall()
 {
-    this.gapSize = random(minCellSize, maxCellSize);
+    this.minGapSizeOffset = 10;
+    this.gapSize = random(minCellSize + this.minGapSizeOffset, maxCellSize);
     this.leftSideSize = random(maxCellSize, width - maxCellSize - this.gapSize);
     this.rightSideSize = width - this.leftSideSize - this.gapSize;
     this.wallHeight = 50;
@@ -16,6 +17,7 @@ function Wall()
     this.show = function()
     {
         rectMode(CORNER);
+        noStroke();
         rect(0, this.y, this.leftSideSize, this.wallHeight);
         rect(this.leftSideSize + this.gapSize, this.y, this.rightSideSize, this.wallHeight);
     }
