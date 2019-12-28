@@ -7,7 +7,7 @@ var backgroundImage;
 let minCellSize = 20;
 let maxCellSize = 100;
 
-let movementSpeed = 3;
+let movementSpeed = 5;
 
 let wallSpawnCounter = 0;
 
@@ -16,6 +16,8 @@ let wallScoreBonus = 10;
 let idleBonus = 5;
 let minCellSizeScoreMultiplier = 1;
 let maxCellSizeScoreMultiplier = 10;
+
+let gameOver = false;
 
 function preload()
 {
@@ -55,13 +57,15 @@ function draw()
 
 	scoreMultiplier = map(cell.size, minCellSize, maxCellSize, minCellSizeScoreMultiplier, maxCellSizeScoreMultiplier);
 
-	if (frameCount != 1)
+	if (frameRate() > 1)
+	{
 		score += idleBonus / frameRate() * scoreMultiplier;
+	}
 
 	if (wallSpawnCounter <= 0)
 	{
 		walls.push(new Wall());
-		wallSpawnCounter = random(70, 150);
+		wallSpawnCounter = random(200 / movementSpeed, 500 / movementSpeed);
 	}
 	wallSpawnCounter--;
 
@@ -82,8 +86,31 @@ function draw()
 
 		if (walls[i].hits(cell))
 		{
-			walls = [];
-			score = 0;
+			noLoop();
+			gameOver = true;
 		}
 	}
+}
+
+function keyPressed()
+{
+	if (key == ' ')
+		action();
+}
+
+function mousePressed()
+{
+	if (mouseButton == LEFT)
+		action();
+}
+
+function action()
+{
+	if (gameOver)
+	{
+		gameOver = false;
+		walls = [];
+		score = 0;
+	}
+	loop();
 }
