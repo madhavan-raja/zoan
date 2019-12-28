@@ -28,6 +28,7 @@ function Cell()
     this.show = function()
     {
         rectMode(CENTER)
+        noStroke();
         rect(this.x, this.y, this.size, this.size);
     }
 }
