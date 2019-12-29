@@ -1,5 +1,7 @@
 function Cell()
 {
+    this.graphics = loadImage("assets/graphics/cell.png");
+
     this.minSize = minCellSize;
     this.maxSize = maxCellSize;
     this.size = this.minSize;
@@ -16,9 +18,11 @@ function Cell()
 
     this.update = function()
     {
-        this.x = constrain(mouseX, this.xBounds, width - this.xBounds);
+        this.x = lerp(this.x, mouseX, 0.6);
+        this.x = constrain(this.x, this.xBounds, width - this.xBounds);
 
-        this.y = map(mouseY, height, 0, this.maxY, this.minY);
+        this.y = lerp(this.y, mouseY, 0.6);
+        this.y = map(this.y, height, 0, this.maxY, this.minY);
         this.y = constrain(this.y, this.minY, this.maxY);
 
         this.size = map(mouseY, this.startRegion, this.startRegion - this.sizeModificationActiveRegion, this.minSize, this.maxSize)
@@ -27,8 +31,7 @@ function Cell()
 
     this.show = function()
     {
-        rectMode(CENTER)
-        noStroke();
-        rect(this.x, this.y, this.size, this.size);
+        imageMode(CENTER)
+        image(this.graphics, this.x, this.y, this.size, this.size);;
     }
 }

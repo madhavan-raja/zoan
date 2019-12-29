@@ -1,7 +1,10 @@
 function Wall()
 {
+    this.graphics = loadImage("assets/graphics/wall.png");
+
+    this.maxGapSizeMultiplier = 2;
     this.minGapSizeOffset = 10;
-    this.gapSize = random(minCellSize + this.minGapSizeOffset, maxCellSize);
+    this.gapSize = random(minCellSize + this.minGapSizeOffset, maxCellSize * this.maxGapSizeMultiplier);
     this.leftSideSize = random(maxCellSize, width - maxCellSize - this.gapSize);
     this.rightSideSize = width - this.leftSideSize - this.gapSize;
     this.wallHeight = 50;
@@ -11,15 +14,14 @@ function Wall()
 
     this.update = function()
     {
-        this.y += movementSpeed;
+        this.y += netMovementSpeed;
     }
 
     this.show = function()
     {
-        rectMode(CORNER);
-        noStroke();
-        rect(0, this.y, this.leftSideSize, this.wallHeight);
-        rect(this.leftSideSize + this.gapSize, this.y, this.rightSideSize, this.wallHeight);
+        imageMode(CORNER);
+        image(this.graphics, 0, this.y, this.leftSideSize, this.wallHeight);
+        image(this.graphics, this.leftSideSize + this.gapSize, this.y, this.rightSideSize, this.wallHeight);
     }
     
     this.offscreen = function()
